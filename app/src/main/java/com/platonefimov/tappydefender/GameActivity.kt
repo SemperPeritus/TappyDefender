@@ -12,7 +12,6 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gameView = GameView(this)
-//        setContentView(R.layout.activity_game)
         setContentView(gameView)
 
         // Fullscreen parameters

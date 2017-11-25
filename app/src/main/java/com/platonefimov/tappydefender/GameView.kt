@@ -2,6 +2,7 @@ package com.platonefimov.tappydefender
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.os.HandlerThread
 import android.util.Log
@@ -52,15 +53,19 @@ class GameView(context: Context?) : SurfaceView(context), Runnable {
     }
 
     private fun draw() {
-        setWillNotDraw(false)
         if (surfaceHolder.surface.isValid) {
             Log.v(javaClass.name, "Drawing...")
 
-            canvas = surfaceHolder.lockCanvas()!!
+            // Lock
+            canvas = surfaceHolder.lockCanvas()
 
-            canvas.drawCircle(50f, 50f, 25f, paint)
+            // Clear scene
+            canvas.drawColor(Color.argb(255, 0, 0, 0))
+
+            // Draw player
             canvas.drawBitmap(player.bitmap, player.x, player.y, paint)
 
+            // Unlock
             surfaceHolder.unlockCanvasAndPost(canvas)
         } else {
             Log.v(javaClass.name, "Not drawing!")
