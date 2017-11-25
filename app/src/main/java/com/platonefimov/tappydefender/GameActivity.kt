@@ -7,9 +7,13 @@ import android.view.View
 
 class GameActivity : AppCompatActivity() {
 
+    private var gameView: GameView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game)
+        gameView = GameView(this)
+//        setContentView(R.layout.activity_game)
+        setContentView(gameView)
 
         // Fullscreen parameters
         var uiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
@@ -23,5 +27,15 @@ class GameActivity : AppCompatActivity() {
         // Go Fullscreen
         window.decorView.systemUiVisibility = uiVisibility
         actionBar?.hide()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        gameView?.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        gameView?.resume()
     }
 }
