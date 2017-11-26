@@ -16,6 +16,4 @@ class PlayerShip(context: Context?) {
     fun update() {
         x += speed
     }
-
-
 }
