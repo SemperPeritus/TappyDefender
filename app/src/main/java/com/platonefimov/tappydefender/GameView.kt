@@ -10,8 +10,7 @@ import android.view.SurfaceView
 
 class GameView(context: Context?) : SurfaceView(context), Runnable {
 
-    @Volatile
-    var playing: Boolean = true
+    private var playing: Boolean = true
     private var gameThread: Thread? = null
 
     private val player = PlayerShip(context)
