@@ -20,7 +20,9 @@ class GameView(context: Context, screenX: Int, screenY: Int) : SurfaceView(conte
     private val surfaceHolder = holder
 
     private val player = PlayerShip(context, screenY)
-    private val enemy = EnemyShip(context, screenX, screenY)
+    private val enemy1 = EnemyShip(context, screenX, screenY)
+    private val enemy2 = EnemyShip(context, screenX, screenY)
+    private val enemy3 = EnemyShip(context, screenX, screenY)
 
     override fun run() {
         while (playing) {
@@ -51,7 +53,9 @@ class GameView(context: Context, screenX: Int, screenY: Int) : SurfaceView(conte
 
     private fun update() {
         player.update()
-        enemy.update(player.speed)
+        enemy1.update(player.speed)
+        enemy2.update(player.speed)
+        enemy3.update(player.speed)
     }
 
     private fun draw() {
@@ -66,7 +70,9 @@ class GameView(context: Context, screenX: Int, screenY: Int) : SurfaceView(conte
             canvas.drawBitmap(player.bitmap, player.x, player.y, paint)
 
             // Draw enemies
-            canvas.drawBitmap(enemy.bitmap, enemy.x, enemy.y, paint)
+            canvas.drawBitmap(enemy1.bitmap, enemy1.x, enemy1.y, paint)
+            canvas.drawBitmap(enemy2.bitmap, enemy2.x, enemy2.y, paint)
+            canvas.drawBitmap(enemy3.bitmap, enemy3.x, enemy3.y, paint)
 
             // Unlock
             surfaceHolder.unlockCanvasAndPost(canvas)
