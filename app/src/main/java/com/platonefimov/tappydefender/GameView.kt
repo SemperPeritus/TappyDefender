@@ -10,16 +10,17 @@ import android.view.MotionEvent
 import android.view.SurfaceView
 
 @SuppressLint("ViewConstructor")
-class GameView(context: Context?, screenX: Int, screenY: Int) : SurfaceView(context), Runnable {
+class GameView(context: Context, screenX: Int, screenY: Int) : SurfaceView(context), Runnable {
 
     private var playing = true
     private var gameThread: Thread? = null
 
-    private val player = PlayerShip(context, screenY)
-
     private val paint = Paint()
     private var canvas = Canvas()
     private val surfaceHolder = holder
+
+    private val player = PlayerShip(context, screenY)
+    private val enemy = EnemyShip(context, screenX, screenY)
 
     override fun run() {
         while (playing) {
@@ -50,6 +51,7 @@ class GameView(context: Context?, screenX: Int, screenY: Int) : SurfaceView(cont
 
     private fun update() {
         player.update()
+        enemy.update(player.speed)
     }
 
     private fun draw() {
@@ -62,6 +64,9 @@ class GameView(context: Context?, screenX: Int, screenY: Int) : SurfaceView(cont
 
             // Draw player
             canvas.drawBitmap(player.bitmap, player.x, player.y, paint)
+
+            // Draw enemies
+            canvas.drawBitmap(enemy.bitmap, enemy.x, enemy.y, paint)
 
             // Unlock
             surfaceHolder.unlockCanvasAndPost(canvas)

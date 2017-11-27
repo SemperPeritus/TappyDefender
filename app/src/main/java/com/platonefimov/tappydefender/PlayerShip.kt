@@ -4,19 +4,23 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 
-class PlayerShip(context: Context?, screenY: Int) {
+class PlayerShip(context: Context, screenY: Int) {
 
-    val bitmap: Bitmap = BitmapFactory.decodeResource(context?.resources, R.drawable.ship)
+    val bitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ship)
     var x: Float = 50f
         private set
     var y: Float = 50f
         private set
 
-    private var speed: Float = 1f
+    var speed: Float = 1f
+        private set
     var boosting = false
+
     private val gravity = -12f
+
     private var maxY = (screenY - bitmap.height).toFloat()
     private var minY = 0f
+
     private val minSpeed = 1f
     private val maxSpeed = 20f
 
