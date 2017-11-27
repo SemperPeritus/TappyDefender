@@ -10,26 +10,25 @@ class EnemyShip(context: Context, screenX: Int, screenY: Int) {
     private val random = Random()
 
     val bitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.enemy)
-    private var speed = (random.nextInt(6) + 10).toFloat()
+    private var speed = random.nextInt(6) + 10
 
     private val minX = 0
     private val maxX = screenX
-//    private val minY = 0
     private val maxY = screenY
 
-    var x = screenX.toFloat()
+    var x = screenX
         private set
-    var y = (random.nextInt(maxY) - bitmap.height).toFloat()
+    var y = random.nextInt(maxY) - bitmap.height
         private set
 
-    fun update(playerSpeed: Float) {
+    fun update(playerSpeed: Int) {
         x -= playerSpeed
         x -= speed
 
         if (x < minX - bitmap.width) {
-            speed = (random.nextInt(10) + 10).toFloat()
-            x = maxX.toFloat()
-            y = (random.nextInt(maxY) - bitmap.height).toFloat()
+            speed = random.nextInt(10) + 10
+            x = maxX
+            y = random.nextInt(maxY) - bitmap.height
         }
     }
 }

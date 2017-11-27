@@ -7,28 +7,28 @@ import android.graphics.BitmapFactory
 class PlayerShip(context: Context, screenY: Int) {
 
     val bitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ship)
-    var x: Float = 50f
+    var x = 50
         private set
-    var y: Float = 50f
+    var y = 50
         private set
 
-    var speed: Float = 1f
+    var speed = 1
         private set
     var boosting = false
 
-    private val gravity = -12f
+    private val gravity = -12
 
-    private var maxY = (screenY - bitmap.height).toFloat()
-    private var minY = 0f
+    private var maxY = screenY - bitmap.height
+    private var minY = 0
 
-    private val minSpeed = 1f
-    private val maxSpeed = 20f
+    private val minSpeed = 1
+    private val maxSpeed = 20
 
     fun update() {
         if (boosting)
-            speed += 2f
+            speed += 2
         else
-            speed -= 5f
+            speed -= 5
 
         if (speed > maxSpeed)
             speed = maxSpeed

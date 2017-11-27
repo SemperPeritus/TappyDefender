@@ -20,9 +20,14 @@ class GameView(context: Context, screenX: Int, screenY: Int) : SurfaceView(conte
     private val surfaceHolder = holder
 
     private val player = PlayerShip(context, screenY)
+
     private val enemy1 = EnemyShip(context, screenX, screenY)
     private val enemy2 = EnemyShip(context, screenX, screenY)
     private val enemy3 = EnemyShip(context, screenX, screenY)
+
+    private val dustList = MutableList(40, {
+        SpaceDust(screenX, screenY)
+    })
 
     override fun run() {
         while (playing) {
@@ -52,10 +57,17 @@ class GameView(context: Context, screenX: Int, screenY: Int) : SurfaceView(conte
     }
 
     private fun update() {
+        // Update player and player control
         player.update()
+
+        // Update enemies
         enemy1.update(player.speed)
         enemy2.update(player.speed)
         enemy3.update(player.speed)
+
+        // Update dust
+        for (dust in dustList)
+            dust.update(player.speed)
     }
 
     private fun draw() {
@@ -67,12 +79,17 @@ class GameView(context: Context, screenX: Int, screenY: Int) : SurfaceView(conte
             canvas.drawColor(Color.argb(255, 0, 0, 0))
 
             // Draw player
-            canvas.drawBitmap(player.bitmap, player.x, player.y, paint)
+            canvas.drawBitmap(player.bitmap, player.x.toFloat(), player.y.toFloat(), paint)
 
             // Draw enemies
-            canvas.drawBitmap(enemy1.bitmap, enemy1.x, enemy1.y, paint)
-            canvas.drawBitmap(enemy2.bitmap, enemy2.x, enemy2.y, paint)
-            canvas.drawBitmap(enemy3.bitmap, enemy3.x, enemy3.y, paint)
+            canvas.drawBitmap(enemy1.bitmap, enemy1.x.toFloat(), enemy1.y.toFloat(), paint)
+            canvas.drawBitmap(enemy2.bitmap, enemy2.x.toFloat(), enemy2.y.toFloat(), paint)
+            canvas.drawBitmap(enemy3.bitmap, enemy3.x.toFloat(), enemy3.y.toFloat(), paint)
+
+            // Draw dust
+            paint.color = Color.argb(255, 255, 255, 255)
+            for (dust in dustList)
+                canvas.drawPoint(dust.x.toFloat(), dust.y.toFloat(), paint)
 
             // Unlock
             surfaceHolder.unlockCanvasAndPost(canvas)
