@@ -41,7 +41,5 @@ class PlayerShip(context: Context, screenY: Int) {
             y = minY
         if (y > maxY)
             y = maxY
-
-        x += 1
     }
 }
