@@ -1,19 +1,21 @@
 package com.platonefimov.tappydefender
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.HandlerThread
-import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceView
 
-class GameView(context: Context?) : SurfaceView(context), Runnable {
+@SuppressLint("ViewConstructor")
+class GameView(context: Context?, screenX: Int, screenY: Int) : SurfaceView(context), Runnable {
 
-    private var playing: Boolean = true
+    private var playing = true
     private var gameThread: Thread? = null
 
-    private val player = PlayerShip(context)
+    private val player = PlayerShip(context, screenY)
 
     private val paint = Paint()
     private var canvas = Canvas()
@@ -48,13 +50,10 @@ class GameView(context: Context?) : SurfaceView(context), Runnable {
 
     private fun update() {
         player.update()
-        Log.v(javaClass.name, "x: ${player.x} | y: ${player.y}.")
     }
 
     private fun draw() {
         if (surfaceHolder.surface.isValid) {
-            Log.v(javaClass.name, "Drawing...")
-
             // Lock
             canvas = surfaceHolder.lockCanvas()
 
@@ -66,8 +65,20 @@ class GameView(context: Context?) : SurfaceView(context), Runnable {
 
             // Unlock
             surfaceHolder.unlockCanvasAndPost(canvas)
-        } else {
-            Log.v(javaClass.name, "Not drawing!")
         }
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        performClick()
+        when (event.action) {
+            MotionEvent.ACTION_UP -> player.boosting = false
+            MotionEvent.ACTION_DOWN -> player.boosting = true
+        }
+        return true
+    }
+
+    override fun performClick(): Boolean {
+        super.performClick()
+        return true
     }
 }

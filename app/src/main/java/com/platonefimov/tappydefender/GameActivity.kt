@@ -1,5 +1,6 @@
 package com.platonefimov.tappydefender
 
+import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -11,7 +12,11 @@ class GameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gameView = GameView(this)
+
+        var size = Point()
+        windowManager.defaultDisplay.getSize(size)
+
+        gameView = GameView(this, size.x, size.y)
         setContentView(gameView)
 
         // Fullscreen parameters
