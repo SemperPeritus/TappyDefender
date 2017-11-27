@@ -13,7 +13,7 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var size = Point()
+        val size = Point()
         windowManager.defaultDisplay.getSize(size)
 
         gameView = GameView(this, size.x, size.y)
