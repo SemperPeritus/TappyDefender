@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.os.HandlerThread
 import android.view.MotionEvent
 import android.view.SurfaceView
@@ -68,6 +69,13 @@ class GameView(context: Context, screenX: Int, screenY: Int) : SurfaceView(conte
         // Update dust
         for (dust in dustList)
             dust.update(player.speed)
+
+        if (Rect.intersects(player.hitBox, enemy1.hitBox))
+            enemy1.x = -100
+        if (Rect.intersects(player.hitBox, enemy2.hitBox))
+            enemy2.x = -100
+        if (Rect.intersects(player.hitBox, enemy3.hitBox))
+            enemy3.x = -100
     }
 
     private fun draw() {
