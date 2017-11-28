@@ -70,6 +70,7 @@ class GameView(context: Context, screenX: Int, screenY: Int) : SurfaceView(conte
         for (dust in dustList)
             dust.update(player.speed)
 
+        // Check hitBoxes
         if (Rect.intersects(player.hitBox, enemy1.hitBox))
             enemy1.x = -100
         if (Rect.intersects(player.hitBox, enemy2.hitBox))
