@@ -27,6 +27,8 @@ class PlayerShip(context: Context, screenY: Int) {
     private val minSpeed = 1
     private val maxSpeed = 20
 
+    var shieldStrength = 2
+
     fun update() {
         // Are we boosting?
         if (boosting)
