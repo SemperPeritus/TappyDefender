@@ -32,6 +32,8 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
     private val enemy1 = EnemyShip(context, screenX, screenY)
     private val enemy2 = EnemyShip(context, screenX, screenY)
     private val enemy3 = EnemyShip(context, screenX, screenY)
+    private val enemy4 = EnemyShip(context, screenX, screenY)
+    private val enemy5 = EnemyShip(context, screenX, screenY)
 
     private var distanceRemaining = 10000f // 10 km
     private var timeTaken: Long = 0
@@ -87,6 +89,10 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
             enemy1.update(player.speed)
             enemy2.update(player.speed)
             enemy3.update(player.speed)
+            if (screenX > 1000)
+                enemy4.update(player.speed)
+            if (screenX > 1200)
+                enemy5.update(player.speed)
 
             // Update dust
             for (dust in dustList)
@@ -106,6 +112,16 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
                 hitDetected = true
                 enemy3.x = -9999
             }
+            if (screenX > 1000)
+                if (Rect.intersects(player.hitBox, enemy4.hitBox)) {
+                    hitDetected = true
+                    enemy4.x = -9999
+                }
+            if (screenX > 1200)
+                if (Rect.intersects(player.hitBox, enemy5.hitBox)) {
+                    hitDetected = true
+                    enemy5.x = -9999
+                }
 
             // if Hit detected
             if (hitDetected) {
@@ -149,6 +165,10 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
             canvas.drawBitmap(enemy1.bitmap, enemy1.x.toFloat(), enemy1.y.toFloat(), paint)
             canvas.drawBitmap(enemy2.bitmap, enemy2.x.toFloat(), enemy2.y.toFloat(), paint)
             canvas.drawBitmap(enemy3.bitmap, enemy3.x.toFloat(), enemy3.y.toFloat(), paint)
+            if (screenX > 1000)
+                canvas.drawBitmap(enemy4.bitmap, enemy4.x.toFloat(), enemy4.y.toFloat(), paint)
+            if (screenX > 1200)
+                canvas.drawBitmap(enemy5.bitmap, enemy5.x.toFloat(), enemy5.y.toFloat(), paint)
 
             // Draw dust
             paint.color = Color.argb(255, 255, 255, 255)
@@ -161,8 +181,8 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
                 paint.color = Color.argb(255, 255, 255, 255)
                 paint.textSize = 25f
 
-                canvas.drawText("Fastest: ${fastestTime}s", 10f, 20f, paint)
-                canvas.drawText("Time: ${timeTaken / 1000f}s", screenX / 2f, 20f, paint)
+                canvas.drawText("Fastest: ${"%.3f".format(fastestTime / 1000f)}s", 10f, 20f, paint)
+                canvas.drawText("Time: ${"%.3f".format(timeTaken / 1000f)}s", screenX / 2f, 20f, paint)
                 canvas.drawText("Distance: ${distanceRemaining / 1000} KM",
                         screenX / 3f, screenY - 20f, paint)
 
@@ -178,7 +198,7 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
                 canvas.drawText("Game Over", screenX / 2f, 100f, paint)
 
                 paint.textSize = 25f
-                canvas.drawText("Fastest: ${fastestTime}s", screenX / 2f, 160f, paint)
+                canvas.drawText("Fastest: ${"%.3f".format(fastestTime / 1000f)}s", screenX / 2f, 160f, paint)
                 canvas.drawText("Time: ${"%.3f".format(timeTaken / 1000f)}s",
                         screenX / 2f, 200f, paint)
                 canvas.drawText("Distance remaining: ${distanceRemaining / 1000} KM",
@@ -210,6 +230,4 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
         super.performClick()
         return true
     }
-
-
 }

@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Rect
 import java.util.*
 
-class EnemyShip(private val context: Context, screenX: Int, screenY: Int) {
+class EnemyShip(private val context: Context, private val screenX: Int, screenY: Int) {
 
     private val random = Random()
 
@@ -41,9 +41,23 @@ class EnemyShip(private val context: Context, screenX: Int, screenY: Int) {
         hitBox.set(x, y, x + bitmap.width, y + bitmap.height)
     }
 
-    private fun randomBitmap() = when (random.nextInt(3)) {
-        0 -> BitmapFactory.decodeResource(context.resources, R.drawable.enemy)
-        1 -> BitmapFactory.decodeResource(context.resources, R.drawable.enemy2)
-        else -> BitmapFactory.decodeResource(context.resources, R.drawable.enemy3)
+    private fun randomBitmap(): Bitmap {
+        // Random bitmap
+        var bitmap = when (random.nextInt(3)) {
+            0 -> BitmapFactory.decodeResource(context.resources, R.drawable.enemy)
+            1 -> BitmapFactory.decodeResource(context.resources, R.drawable.enemy2)
+            else -> BitmapFactory.decodeResource(context.resources, R.drawable.enemy3)
+        }
+
+        // Scale bitmap
+        if (screenX < 1000) {
+            bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width / 3,
+                    bitmap.height / 3, false)
+        } else if (screenX < 1200)
+            bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width / 2,
+                    bitmap.height / 2, false)
+
+        // Return bitmap
+        return bitmap
     }
 }
