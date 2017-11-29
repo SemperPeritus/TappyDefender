@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.media.MediaPlayer
 import android.os.HandlerThread
 import android.view.MotionEvent
 import android.view.SurfaceView
@@ -14,6 +15,8 @@ import android.view.SurfaceView
 @SuppressLint("ViewConstructor")
 class GameView(context: Context, private val screenX: Int, private val screenY: Int) :
         SurfaceView(context), Runnable {
+
+    private val prefs = context.getSharedPreferences("HiScore", Context.MODE_PRIVATE)
 
     private var playing = true
     private var gameThread: Thread? = null
@@ -33,11 +36,20 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
     private var distanceRemaining = 10000f // 10 km
     private var timeTaken: Long = 0
     private var timeStarted = System.currentTimeMillis()
-    private var fastestTime: Long = 0
+    private var fastestTime: Long = prefs.getLong("fastestTime", 100000L)
+
+    private val bumpSound = MediaPlayer.create(context, R.raw.bump)
+    private val destroyedSound = MediaPlayer.create(context, R.raw.destroyed)
+    private val startSound = MediaPlayer.create(context, R.raw.start)
+    private val winSound = MediaPlayer.create(context, R.raw.win)
 
     private val dustList = MutableList(40, {
         SpaceDust(screenX, screenY)
     })
+
+    init {
+        startSound.start()
+    }
 
     override fun run() {
         while (playing) {
@@ -98,8 +110,10 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
             // if Hit detected
             if (hitDetected) {
                 player.shieldStrength--
+                bumpSound.start()
                 if (player.shieldStrength < 0) {
                     gameEnded = true
+                    destroyedSound.start()
                 }
             }
 
@@ -115,6 +129,7 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
                 distanceRemaining = 0f
 
                 gameEnded = true
+                winSound.start()
             }
         }
     }
@@ -195,4 +210,6 @@ class GameView(context: Context, private val screenX: Int, private val screenY: 
         super.performClick()
         return true
     }
+
+
 }

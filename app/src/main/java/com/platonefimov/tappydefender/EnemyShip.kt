@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Rect
 import java.util.*
 
-class EnemyShip(context: Context, screenX: Int, screenY: Int) {
+class EnemyShip(private val context: Context, screenX: Int, screenY: Int) {
 
     private val random = Random()
 
@@ -14,7 +14,7 @@ class EnemyShip(context: Context, screenX: Int, screenY: Int) {
     private val maxX = screenX
     private val maxY = screenY
 
-    val bitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.enemy)
+    var bitmap: Bitmap = randomBitmap()
 
     var x = screenX
     var y = random.nextInt(maxY) - bitmap.height
@@ -31,6 +31,7 @@ class EnemyShip(context: Context, screenX: Int, screenY: Int) {
 
         // Reset position (aka. create new enemy)
         if (x < minX - bitmap.width) {
+            bitmap = randomBitmap()
             speed = random.nextInt(10) + 10
             x = maxX
             y = random.nextInt(maxY) - bitmap.height
@@ -38,5 +39,11 @@ class EnemyShip(context: Context, screenX: Int, screenY: Int) {
 
         // Update hitBox
         hitBox.set(x, y, x + bitmap.width, y + bitmap.height)
+    }
+
+    private fun randomBitmap() = when (random.nextInt(3)) {
+        0 -> BitmapFactory.decodeResource(context.resources, R.drawable.enemy)
+        1 -> BitmapFactory.decodeResource(context.resources, R.drawable.enemy2)
+        else -> BitmapFactory.decodeResource(context.resources, R.drawable.enemy3)
     }
 }
